@@ -11,25 +11,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Heimer. If not, see <http://www.gnu.org/licenses/>.
+// along with Cacophony. If not, see <http://www.gnu.org/licenses/>.
 
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include <cstdlib>
+#include <iostream>
 
-int main(int argc, char **argv)
+#include "application.hpp"
+
+int main(int argc, char ** argv)
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
-    engine.load(url);
-
-    return app.exec();
+    try {
+        return Application(argc, argv).run();
+    } catch (std::exception & e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 }
