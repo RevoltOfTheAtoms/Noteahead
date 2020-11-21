@@ -16,9 +16,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import Cacophony 1.0
+
 ApplicationWindow {
-    width: 640
-    height: 480
+    id: root
+    width: config.calculateDefaultWindowSize().width
+    height: config.calculateDefaultWindowSize().height
     visible: true
     title: qsTr("Cacophony")
 
