@@ -16,10 +16,22 @@
 #include <cstdlib>
 #include <iostream>
 
+#include <QCoreApplication>
+#include <QSettings>
+
 #include "application.hpp"
+#include "constants.hpp"
 
 int main(int argc, char ** argv)
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QCoreApplication::setOrganizationName(cacophony::constants::application::QSETTINGS_COMPANY_NAME);
+    QCoreApplication::setApplicationName(cacophony::constants::application::QSETTINGS_SOFTWARE_NAME);
+#ifdef Q_OS_WIN32
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+#endif
+
     try {
         return cacophony::Application(argc, argv).run();
     } catch (std::exception & e) {
