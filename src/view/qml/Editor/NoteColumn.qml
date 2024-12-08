@@ -11,6 +11,9 @@ Rectangle {
         rootItem.height = height;
         _resizeLines();
     }
+    function index() {
+        return _index;
+    }
     function setIndex(index) {
         _index = index;
     }
