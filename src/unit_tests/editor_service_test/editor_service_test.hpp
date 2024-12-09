@@ -30,6 +30,8 @@ private slots:
 
     void testDefaultSong_shouldNotHaveNoteData();
 
+    void testDefaultSong_scroll_shouldCorrectly();
+
     void testSetTrackName_shouldChangeTrackName();
 };
 
