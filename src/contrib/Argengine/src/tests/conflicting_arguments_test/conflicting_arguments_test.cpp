@@ -31,7 +31,7 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <iostream>
+#include <stdexcept>
 
 using juzzlin::Argengine;
 
@@ -39,66 +39,75 @@ const auto name = "Argengine";
 
 void testConflictingArguments_ConflictingArgumentsGiven_ShouldFail()
 {
-    Argengine ae({ "test", "foo", "bar" });
-    bool fooCalled {};
-    ae.addOption({ "foo" }, [&] {
-        fooCalled = true;
+    const auto a1 = "a1";
+    const auto a2 = "a2";
+    const auto a3 = "a3";
+    Argengine ae({ a1, a2, a3 });
+    bool a2Called {};
+    ae.addOption({ a2 }, [&] {
+        a2Called = true;
     });
-    bool barCalled {};
-    ae.addOption({ "bar" }, [&] {
-        barCalled = true;
+    bool a3Called {};
+    ae.addOption({ a3 }, [&] {
+        a3Called = true;
     });
-    ae.addConflictingOptions({ "foo", "bar" });
+    ae.addConflictingOptions({ a2, a3 });
     std::string error;
     try {
         ae.parse();
     } catch (std::runtime_error & e) {
         error = e.what();
     }
-    assert(!fooCalled);
-    assert(!barCalled);
-    assert(error == std::string(name) + ": Conflicting options: 'bar', 'foo'. These options cannot coexist.");
+    assert(!a2Called);
+    assert(!a3Called);
+    assert(error == std::string(name) + ": Conflicting options: '" + a2 + "', '" + a3 + "'. These options cannot coexist.");
 }
 
 void testConflictingArguments_ConflictingArgumentsSetButNotEnoughGiven_ShouldSucceed()
 {
-    Argengine ae({ "test", "foo" });
-    bool fooCalled {};
-    ae.addOption({ "foo" }, [&] {
-        fooCalled = true;
+    const auto a1 = "a1";
+    const auto a2 = "a2";
+    const auto a3 = "a2";
+    Argengine ae({ a1, a2 });
+    bool a2Called {};
+    ae.addOption({ a2 }, [&] {
+        a2Called = true;
     });
-    ae.addConflictingOptions({ "foo", "bar" });
+    ae.addConflictingOptions({ a2, a3 });
     std::string error;
     try {
         ae.parse();
     } catch (std::runtime_error & e) {
         error = e.what();
     }
-    assert(fooCalled);
+    assert(a2Called);
     assert(error.empty());
 }
 
 void testConflictingArguments_ConflictingArgumentsGiven_ShouldNotReferToVariants()
 {
-    Argengine ae({ "test", "foo", "bar" });
-    bool fooCalled {};
-    ae.addOption({ "foo", "-f" }, [&] {
-        fooCalled = true;
+    const auto a1 = "a1";
+    const auto a2 = "a2";
+    const auto a3 = "a3";
+    Argengine ae({ a1, a2, a3 });
+    bool a2Called {};
+    ae.addOption({ a2, std::string("--") + a2 }, [&] {
+        a2Called = true;
     });
-    bool barCalled {};
-    ae.addOption({ "-b", "bar" }, [&] {
-        barCalled = true;
+    bool a3Called {};
+    ae.addOption({ a3, std::string("--") + a3 }, [&] {
+        a3Called = true;
     });
-    ae.addConflictingOptions({ "foo", "bar" });
+    ae.addConflictingOptions({ a2, a3 });
     std::string error;
     try {
         ae.parse();
     } catch (std::runtime_error & e) {
         error = e.what();
     }
-    assert(!fooCalled);
-    assert(!barCalled);
-    assert(error == std::string(name) + ": Conflicting options: 'bar', 'foo'. These options cannot coexist.");
+    assert(!a2Called);
+    assert(!a3Called);
+    assert(error == std::string(name) + ": Conflicting options: '" + a2 + "', '" + a3 + "'. These options cannot coexist.");
 }
 
 int main(int, char **)
