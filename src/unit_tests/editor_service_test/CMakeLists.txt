@@ -7,7 +7,9 @@ set(SRC
     ../../application/note_converter.cpp
     ../../application/position.hpp
     ../../domain/column.cpp
+    ../../domain/event.cpp
     ../../domain/line.cpp
+    ../../domain/note_data.cpp
     ../../domain/pattern.cpp
     ../../domain/song.cpp
     ../../domain/track.cpp

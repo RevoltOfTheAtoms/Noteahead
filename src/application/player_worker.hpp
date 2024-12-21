@@ -17,15 +17,56 @@
 #define PLAYER_WORKER_HPP
 
 #include <QObject>
+#include <cstddef>
+#include <memory>
+#include <unordered_map>
+#include <vector>
 
 namespace cacophony {
+
+class Event;
 
 class PlayerWorker : public QObject
 {
     Q_OBJECT
 
 public:
-    PlayerWorker();
+    using EventS = std::shared_ptr<Event>;
+    using EventList = std::vector<EventS>;
+
+    struct Timing
+    {
+        uint32_t beatsPerMinute = 0;
+
+        uint32_t linesPerBeat = 0;
+
+        uint32_t ticksPerLine = 0;
+    };
+
+    explicit PlayerWorker(const EventList & events, const Timing & timing);
+
+    ~PlayerWorker();
+
+    Q_INVOKABLE void play();
+
+    Q_INVOKABLE void stop();
+
+signals:
+    void songEnded();
+
+    void tickUpdated(uint32_t tick);
+
+private:
+    void processEvents();
+
+    EventList m_events;
+
+    Timing m_timing;
+
+    using EventMap = std::unordered_map<size_t, EventList>;
+    EventMap m_eventMap;
+
+    std::atomic_bool m_stopped = false;
 };
 
 } // namespace cacophony

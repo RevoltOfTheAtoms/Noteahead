@@ -35,7 +35,7 @@ public:
 
     NoteDataS noteData() const;
 
-    void setNoteData(NoteDataS noteData);
+    void setNoteData(const NoteData & noteData);
 
 private:
     NoteDataS m_noteData;
