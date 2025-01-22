@@ -48,6 +48,8 @@ public:
     std::optional<Bank> bank;
 
     void serializeToXml(QXmlStreamWriter & writer) const;
+
+    QString toString() const;
 };
 
 } // namespace cacophony
