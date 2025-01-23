@@ -17,7 +17,7 @@
 #define MIDI_SERVICE_HPP
 
 #include <QObject>
-#include <QTimer>
+#include <QThread>
 
 #include <memory>
 
@@ -27,6 +27,7 @@ namespace cacophony {
 
 class InstrumentRequest;
 class MidiBackend;
+class MidiWorker;
 
 class MidiService : public QObject
 {
@@ -37,11 +38,13 @@ class MidiService : public QObject
 public:
     explicit MidiService(QObject * parent = nullptr);
 
+    ~MidiService() override;
+
     Q_INVOKABLE QStringList availableMidiPorts() const;
 
-    Q_INVOKABLE void requestPatchChange(QString portName, uint8_t channel, uint8_t patch);
-
     void setIsPlaying(bool isPlaying);
+
+    void playMiddleC(QString portName, uint8_t channel);
 
 public slots:
     void handleInstrumentRequest(const InstrumentRequest & instrumentRequest);
@@ -51,18 +54,16 @@ signals:
 
     void statusTextRequested(QString message);
 
+    void instrumentRequestHandlingRequested(const InstrumentRequest & instrumentRequest);
+
 private:
-    void processFailedInstrumentRequests();
+    void initializeWorker();
 
-    std::shared_ptr<MidiBackend> m_midiBackend;
+    std::unique_ptr<MidiWorker> m_midiWorker;
 
-    std::unique_ptr<QTimer> m_midiScanTimer;
+    QThread m_midiWorkerThread;
 
     QStringList m_availableMidiPorts;
-
-    bool m_isPlaying = false;
-
-    std::map<QString, InstrumentRequest> m_failedInstrumentRequests;
 };
 
 } // namespace cacophony
