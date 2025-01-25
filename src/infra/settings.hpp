@@ -24,6 +24,10 @@ QSize loadWindowSize(QSize defaultSize);
 
 void saveWindowSize(QSize size);
 
+QStringList loadRecentFiles();
+
+void saveRecentFiles(const QStringList & fileList);
+
 int loadStep(int defaultStep);
 
 void saveStep(int step);
