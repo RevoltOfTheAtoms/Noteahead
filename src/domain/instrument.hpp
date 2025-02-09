@@ -21,6 +21,8 @@
 
 #include <QString>
 
+#include "instrument_settings.hpp"
+
 class QXmlStreamWriter;
 
 namespace noteahead {
@@ -44,29 +46,7 @@ public:
 
     Device device;
 
-    struct Settings
-    {
-        std::optional<uint8_t> patch;
-
-        struct Bank
-        {
-            uint8_t lsb = 0;
-
-            uint8_t msb = 0;
-
-            bool byteOrderSwapped = false;
-        };
-
-        std::optional<Bank> bank;
-
-        std::optional<uint8_t> cutoff;
-
-        std::optional<uint8_t> pan;
-
-        std::optional<uint8_t> volume;
-    };
-
-    Settings settings;
+    InstrumentSettings settings;
 
     void serializeToXml(QXmlStreamWriter & writer) const;
 
@@ -74,8 +54,6 @@ public:
 
 private:
     void serializeDevice(QXmlStreamWriter & writer) const;
-
-    void serializeSettings(QXmlStreamWriter & writer) const;
 };
 
 } // namespace noteahead
