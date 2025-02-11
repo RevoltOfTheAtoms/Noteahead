@@ -12,25 +12,25 @@ Rectangle {
     border.color: Constants.trackHeaderBorderColor
     border.width: 1
     signal columnDeletionRequested
-    signal muteTrackRequested
+    signal muteRequested
     signal nameChanged(string name)
     signal newColumnRequested
-    signal soloTrackRequested
+    signal soloRequested
     signal trackSettingsDialogRequested
-    signal unmuteTrackRequested
-    signal unsoloTrackRequested
+    signal unmuteRequested
+    signal unsoloRequested
     property bool _focused: false
     function setFocused(focused) {
         _focused = focused;
     }
     function setName(name) {
-        _name = name;
+        nameField.text = name;
     }
-    function setTrackMuted(mute) {
-        trackHeaderMuteSoloButtons.setMuted(mute);
+    function setMuted(mute) {
+        muteSoloButtons.setMuted(mute);
     }
-    function setTrackSoloed(solo) {
-        trackHeaderMuteSoloButtons.setSoloed(solo);
+    function setSoloed(solo) {
+        muteSoloButtons.setSoloed(solo);
     }
     Row {
         anchors.fill: parent
@@ -62,7 +62,6 @@ Rectangle {
         }
         TextField {
             id: nameField
-            text: _name
             placeholderText: qsTr("Track name")
             color: _focused ? "black" : Constants.trackHeaderTextColor
             background: Rectangle {
@@ -73,7 +72,7 @@ Rectangle {
             font.pixelSize: Constants.trackHeaderFontSize
             font.family: "monospace"
             height: parent.height
-            width: parent.width - trackSettingsButton.width - trackHeaderColumnButtons.width - trackHeaderMuteSoloButtons.width
+            width: parent.width - trackSettingsButton.width - trackHeaderColumnButtons.width - muteSoloButtons.width
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             padding: 0  // Remove default padding
@@ -87,13 +86,13 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Set track name")
         }
-        TrackHeaderMuteSoloButtons {
-            id: trackHeaderMuteSoloButtons
+        TrackHeaderColumnButtons {
+            id: trackHeaderColumnButtons
             height: parent.height
             width: height / 2 + 10
         }
-        TrackHeaderColumnButtons {
-            id: trackHeaderColumnButtons
+        MuteSoloButtons {
+            id: muteSoloButtons
             height: parent.height
             width: height / 2 + 10
         }
@@ -101,9 +100,9 @@ Rectangle {
     Component.onCompleted: {
         trackHeaderColumnButtons.columnDeletionRequested.connect(rootItem.columnDeletionRequested);
         trackHeaderColumnButtons.newColumnRequested.connect(rootItem.newColumnRequested);
-        trackHeaderMuteSoloButtons.muteTrackRequested.connect(rootItem.muteTrackRequested);
-        trackHeaderMuteSoloButtons.soloTrackRequested.connect(rootItem.soloTrackRequested);
-        trackHeaderMuteSoloButtons.unmuteTrackRequested.connect(rootItem.unmuteTrackRequested);
-        trackHeaderMuteSoloButtons.unsoloTrackRequested.connect(rootItem.unsoloTrackRequested);
+        muteSoloButtons.muteRequested.connect(rootItem.muteRequested);
+        muteSoloButtons.soloRequested.connect(rootItem.soloRequested);
+        muteSoloButtons.unmuteRequested.connect(rootItem.unmuteRequested);
+        muteSoloButtons.unsoloRequested.connect(rootItem.unsoloRequested);
     }
 }
