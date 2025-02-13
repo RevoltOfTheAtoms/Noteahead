@@ -21,6 +21,8 @@
 
 #include <QString>
 
+#include "midi_cc_setting.hpp"
+
 class QXmlStreamWriter;
 
 namespace noteahead {
@@ -46,6 +48,8 @@ public:
     std::optional<uint8_t> pan;
 
     std::optional<uint8_t> volume;
+
+    std::vector<MidiCcSetting> midiCcSettings;
 
     size_t track() const;
 
