@@ -1,4 +1,3 @@
-
 // This file is part of Noteahead.
 // Copyright (C) 2025 Jussi Lind <jussi.lind@iki.fi>
 //
