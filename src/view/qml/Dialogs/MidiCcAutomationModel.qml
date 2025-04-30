@@ -57,41 +57,52 @@ Item {
             }
         }
         GroupBox {
-            title: qsTr("Value and line ranges")
+            title: qsTr("Interpolation settings")
             Layout.fillWidth: true
             GridLayout {
                 rowSpacing: 10
+                width: parent.width
                 Label {
-                    text: qsTr("Start line:")
+                    text: qsTr("Start line")
                     width: parent.width
+                    Layout.row: 0
+                    Layout.column: 0
                 }
                 SpinBox {
                     id: startLineSpinBox
                     from: 0
-                    to: endLineSpinBox.value
-                    value: 0
-                    editable: true
-                    Keys.onReturnPressed: {
-                        focus = false;
-                    }
-                    Layout.fillWidth: true
-                }
-                Label {
-                    text: " " + qsTr("End line:")
-                }
-                SpinBox {
-                    id: endLineSpinBox
-                    from: startLineSpinBox.value + 1
                     to: 999
                     value: 0
                     editable: true
                     Keys.onReturnPressed: {
                         focus = false;
                     }
+                    Layout.row: 1
+                    Layout.column: 0
                     Layout.fillWidth: true
                 }
                 Label {
-                    text: " " + qsTr("Start value:")
+                    text: qsTr("End line")
+                    Layout.row: 0
+                    Layout.column: 1
+                }
+                SpinBox {
+                    id: endLineSpinBox
+                    from: startLineSpinBox.value
+                    to: 999
+                    value: 0
+                    editable: true
+                    Keys.onReturnPressed: {
+                        focus = false;
+                    }
+                    Layout.row: 1
+                    Layout.column: 1
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: qsTr("Start value")
+                    Layout.row: 0
+                    Layout.column: 2
                 }
                 SpinBox {
                     id: startValueSpinBox
@@ -103,9 +114,13 @@ Item {
                         focus = false;
                     }
                     Layout.fillWidth: true
+                    Layout.row: 1
+                    Layout.column: 2
                 }
                 Label {
-                    text: " " + qsTr("End value:")
+                    text: qsTr("End value")
+                    Layout.row: 0
+                    Layout.column: 3
                 }
                 SpinBox {
                     id: endValueSpinBox
@@ -116,6 +131,8 @@ Item {
                     Keys.onReturnPressed: {
                         focus = false;
                     }
+                    Layout.row: 1
+                    Layout.column: 3
                     Layout.fillWidth: true
                 }
             }

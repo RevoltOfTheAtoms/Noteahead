@@ -12,39 +12,39 @@ Dialog {
         title = "<strong>" + text + "</strong>";
     }
     function controller() {
-        return midiCcAutomationModel.controller();
+        return model.controller();
     }
     function startValue() {
-        return midiCcAutomationModel.startValue();
+        return model.startValue();
     }
     function setStartValue(value) {
-        midiCcAutomationModel.setStartValue(value);
+        model.setStartValue(value);
     }
     function endValue(value) {
-        return midiCcAutomationModel.endValue();
+        return model.endValue();
     }
     function setEndValue(value) {
-        midiCcAutomationModel.setEndValue(value);
+        model.setEndValue(value);
     }
     function startLine() {
-        return midiCcAutomationModel.startLine();
+        return model.startLine();
     }
     function setStartLine(value) {
-        midiCcAutomationModel.setStartLine(value);
+        model.setStartLine(value);
     }
     function endLine() {
-        return midiCcAutomationModel.endLine();
+        return model.endLine();
     }
     function setEndLine(value) {
-        midiCcAutomationModel.setEndLine(value);
+        model.setEndLine(value);
     }
     function comment() {
-        return midiCcAutomationModel.comment();
+        return model.comment();
     }
     function setComment(comment) {
-        midiCcAutomationModel.setComment(comment);
+        model.setComment(comment);
     }
     contentItem: MidiCcAutomationModel {
-        id: midiCcAutomationModel
+        id: model
     }
 }
